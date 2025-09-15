@@ -1,3 +1,4 @@
+library(vroom)
 library(dplyr)
 
 
@@ -19,7 +20,8 @@ my_recipe <- recipe(count~., data=train_data) %>%
   step_mutate(season=factor(season)) %>%
   step_mutate(workingday=factor(workingday)) %>%
   step_mutate(holiday=factor(holiday)) %>%
-  step_dummy(all_nominal_predictors())
+  step_dummy(all_nominal_predictors()) %>%
+  step_normalize(all_numeric_predictors())
 
 # Linear Regression Using Workflow
 lin_model <- linear_reg() %>%
