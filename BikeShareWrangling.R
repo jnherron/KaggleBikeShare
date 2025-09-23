@@ -34,7 +34,7 @@ bike_workflow <- workflow() %>%
   add_model(lin_model) %>%
   fit(data=train_data)
 
-# Run all the steps on test data15
+# Run all the steps on test data
 lin_preds <- exp(predict(bike_workflow, new_data = test_data))
 
 
