@@ -16,12 +16,22 @@ my_recipe <- recipe(count~., data=train_data) %>%
   step_mutate(weather = ifelse(weather == 4,3,weather)) %>%
   step_mutate(weather=factor(weather)) %>%
   step_time(datetime, features=c("hour")) %>%
+  step_date(datetime, features=c("dow", "month", "year")) %>%
+  step_mutate(datetime_dow = as.numeric(datetime_dow)) %>%
+  step_harmonic(datetime_hour, cycle_size = 24, frequency = 1) %>%
+  step_harmonic(datetime_dow, cycle_size = 7, frequency = 1) %>%
   step_rm(datetime) %>%
   step_mutate(season=factor(season)) %>%
   step_mutate(workingday=factor(workingday)) %>%
   step_mutate(holiday=factor(holiday)) %>%
+  # step_interact(~ datetime_hour:workingday) %>%
+  # step_interact(~ holiday:workingday) %>%
+  # step_interact(~ weather:workingday) %>%
+  # step_interact(~ season:workingday) %>%
   step_dummy(all_nominal_predictors()) %>%
   step_normalize(all_numeric_predictors())
+
+
 
 # Linear Regression Using Workflow
 lin_model <- linear_reg() %>%
