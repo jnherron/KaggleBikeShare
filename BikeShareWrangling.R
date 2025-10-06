@@ -31,6 +31,8 @@ my_recipe <- recipe(count~., data=train_data) %>%
   step_dummy(all_nominal_predictors()) %>%
   step_normalize(all_numeric_predictors())
 
+# Bake
+baked_data <- bake(prep(my_recipe), new_data=train_data)
 
 
 # Linear Regression Using Workflow
